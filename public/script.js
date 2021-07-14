@@ -1,60 +1,42 @@
 console.log('Scripts loaded');
 
-const wrapperEl = document.querySelector('#dinoWrapper')
-const BASE_API_URL = './api/dino'
+console.log('script.js loaded');
 
-document.querySelector('#btnLoad').addEventListener('click', async () => {
-	loadSpinner()
-	render();
+document.querySelector('#btnLoad').addEventListener('click', () => {
+	if (document.querySelector('#dinoName') !== null) {
+		document.querySelector('#dinoName').remove();
+	}
+	if (document.querySelector('#dinoImage') !== null) {
+		document.querySelector('#dinoImage').remove();
+	}
+	getDinoName();
 });
 
-async function render() {
-	const nameArr = await _fetchData(BASE_API_URL + '/name?words=2&paragraphs=1');
-	const dinoName = nameArr.join('');
+async function getDinoName() {
+	const response = await fetch('/dinoname');
+	const data = await response.json();
+	let dinoName = data[0].join(' ');
 	console.log(dinoName);
 
-	const imageCount = 10;
-	const imageArr = await _fetchData(BASE_API_URL + '/image?count=' + imageCount);
-	const imageUrl = imageArr[_getRandomIntInclusive(0, imageArr.length - 1)]
-	const imageAlt = imageUrl.split('/')[imageUrl.length - 1]
+	let dinoNameDiv = document.createElement('div');
+	dinoNameDiv.id = 'dinoName';
+	dinoNameDiv.textContent = dinoName;
+	document.querySelector('#dinoWrapper').appendChild(dinoNameDiv);
 
-	loadSpinner()
-
-	const img = new Image();
-	img.onload = function () {
-		wrapperEl.innerHTML = ""
-		const dinoNameDiv = `<div id="dinoName">${dinoName}</div>`;
-		wrapperEl.insertAdjacentHTML('beforeend', dinoNameDiv);
-
-		const dinoImageEl = `<img id="dinoImage" src="${imageUrl}" alt="${imageAlt}"/>`;
-		wrapperEl.insertAdjacentHTML('beforeend', dinoImageEl);
-	}
-	img.src = imageUrl;
+	getDinoImage();
 }
 
-async function _fetchData(url) {
-	try {
-		const response = await fetch(url);
-		const { status, statusText } = response
-		const data = await response.json();
-		if (status > 200) throw { error: true, url, status, statusText, data };
+async function getDinoImage() {
+	const response = await fetch('/dinoimage');
+	const data = await response.json();
+	let dinoImage = data.value[Math.floor(Math.random() * data.value.length)];
+	let dinoImageUrl = dinoImage.thumbnailUrl;
+	let dinoAlt = dinoImage.name;
+	console.log(dinoImage);
 
-		return data;
-	} catch (error) {
-		console.error("🚀 ~ file: script.js ~ line 48 ~ _fetchData ~ error", error)
-		return null
-	}
-}
-
-function loadSpinner() {
-	wrapperEl.innerHTML = ""
-	const spinnerEl = `<div class="spinner"></div>`;
-	wrapperEl.insertAdjacentHTML('beforeend', spinnerEl);
-}
-
-function _getRandomIntInclusive(min, max) {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	// both min and max are inclusive
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+	let img = document.createElement('img');
+	img.id = 'dinoImage';
+	img.src = dinoImageUrl;
+	img.alt = dinoAlt;
+	document.querySelector('#dinoWrapper').appendChild(img);
 }

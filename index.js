@@ -4,28 +4,45 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = 3000;
+const fetch = require('node-fetch');
 
 app.use(express.static('public'));
 
-/**catch all error handler */
-const { errorHandler } = require('./middleware/errorHandler.middleware');
-/**dino api routes */
-const dinoRouter = require('./api/dino/dino.routes')
-app.use('/api/dino', dinoRouter)
+app.listen(port, () => {
+	console.log(`FULL STACK P BABY!! app listening at http://localhost:${port}`);
+});
 
-// global error handler
-app.use(errorHandler);
+const API_KEY = process.env.API_KEY;
 
-process
-	.on('unhandledRejection', (reason, p) => {
-		console.error(reason, 'Unhandled Rejection at Promise', p);
-	})
-	.on('uncaughtException', (err) => {
-		console.error(err, 'Uncaught Exception thrown');
-		process.exit(1);
-	});
+app.get('/dinoname', async (request, response) => {
+	const fetchApi = await fetch(
+		'https://alexnormand-dino-ipsum.p.rapidapi.com/?paragraphs=1&words=2&format=json',
+		{
+			method: 'GET',
+			headers: {
+				'x-rapidapi-key': API_KEY,
+				'x-rapidapi-host': 'alexnormand-dino-ipsum.p.rapidapi.com',
+			},
+		}
+	);
+	const dinoNameResponse = await fetchApi.json();
+	console.log(dinoNameResponse);
+	response.json(dinoNameResponse);
+});
 
-app.listen(PORT, () => {
-	console.log(`FULL STACK P BABY! app listening at http://localhost:${PORT}`);
+app.get('/dinoimage', async (request, response) => {
+	const fetchApi = await fetch(
+		'https://bing-image-search1.p.rapidapi.com/images/search?q=dinosaur&count=20',
+		{
+			method: 'GET',
+			headers: {
+				'x-rapidapi-key': API_KEY,
+				'x-rapidapi-host': 'bing-image-search1.p.rapidapi.com',
+			},
+		}
+	);
+	const dinoImageResponse = await fetchApi.json();
+	console.log(dinoImageResponse);
+	response.json(dinoImageResponse);
 });
