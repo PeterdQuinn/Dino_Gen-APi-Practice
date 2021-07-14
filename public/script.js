@@ -10,7 +10,7 @@ document.querySelector('#btnLoad').addEventListener('click', async () => {
 
 async function render() {
 	const nameArr = await _fetchData(BASE_API_URL + '/name?words=2&paragraphs=1');
-	const dinoName = nameArr.join(' ');
+	const dinoName = nameArr.join('');
 	console.log(dinoName);
 
 	const imageCount = 10;

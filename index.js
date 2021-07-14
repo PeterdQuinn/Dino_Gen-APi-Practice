@@ -27,5 +27,5 @@ process
 	});
 
 app.listen(PORT, () => {
-	console.log(`Example app listening at http://localhost:${PORT}`);
+	console.log(`FULL STACK P BABY! app listening at http://localhost:${PORT}`);
 });
