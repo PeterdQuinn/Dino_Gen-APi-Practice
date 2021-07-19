@@ -1,8 +1,12 @@
 # Dinosaur-Generator
-
-Dinosaur -Generator 
-created with rapid Api
-express js
-API protection Dotenv
-node-fetch
-to run app- npm run dev
+To run :"npm run dev"
+##dependencies## 
+    dotenv
+    express
+    node-fetch
+    winston
+    Node
+APIs
+RapidAPI
+Dino Ipsum
+Bing Image Search
