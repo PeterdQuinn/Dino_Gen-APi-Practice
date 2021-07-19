@@ -16,10 +16,10 @@ app.listen(port, () => {
 const API_KEY = process.env.API_KEY;
 
 app.get('/dinoname', async (request, response) => {
-	const fetchApi = await fetch("https://alexnormand-dino-ipsum.p.rapidapi.com/?paragraphs=2&words=2&format=json", {
+	const fetchApi = await fetch("https://alexnormand-dino-ipsum.p.rapidapi.com/?paragraphs=4&words=10&format=json", {
 		"method": "GET",
 		"headers": {
-			"x-rapidapi-key":API_KEY,
+			"x-rapidapi-key": "879b3efddemsh05f9ab900660b27p1c268cjsn619db9698ad3",
 			"x-rapidapi-host": "alexnormand-dino-ipsum.p.rapidapi.com"
 		}
 	})
@@ -29,10 +29,10 @@ app.get('/dinoname', async (request, response) => {
 });
 
 app.get('/dinoimage', async (request, response) => {
-	const fetchApi = await fetch("https://bing-image-search1.p.rapidapi.com/images/trending", {
+	const fetchApi = await fetch("https://bing-image-search1.p.rapidapi.com/images/search?q=Dinosaur&count=10", {
 		"method": "GET",
 		"headers": {
-			"x-rapidapi-key": API_KEY,
+			"x-rapidapi-key": "879b3efddemsh05f9ab900660b27p1c268cjsn619db9698ad3",
 			"x-rapidapi-host": "bing-image-search1.p.rapidapi.com"
 		}
 	})
