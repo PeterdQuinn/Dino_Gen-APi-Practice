@@ -19,7 +19,7 @@ app.get('/dinoname', async (request, response) => {
 	const fetchApi = await fetch("https://alexnormand-dino-ipsum.p.rapidapi.com/?paragraphs=2&words=2&format=json", {
 		"method": "GET",
 		"headers": {
-			"x-rapidapi-key": API_KEY,
+			"x-rapidapi-key":API_KEY,
 			"x-rapidapi-host": "alexnormand-dino-ipsum.p.rapidapi.com"
 		}
 	})
